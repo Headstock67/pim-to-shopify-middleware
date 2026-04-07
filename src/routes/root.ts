@@ -1,12 +1,17 @@
 import { Router, Request, Response } from 'express';
 import { logger } from '../logging';
-import { tokenStore } from '../services/store';
+import { db } from '../services/db';
 
 export const rootRouter = Router();
 
-rootRouter.get('/', (req: Request, res: Response) => {
+rootRouter.get('/', async (req: Request, res: Response) => {
   const shop = req.query.shop as string | undefined;
-  const hasToken = shop ? tokenStore.has(shop) : false;
+  
+  let hasToken = false;
+  if (shop) {
+    const result = await db.query('SELECT access_token FROM shopify_sessions WHERE shop = $1', [shop]);
+    hasToken = (result.rowCount ?? 0) > 0;
+  }
 
   logger.info({ context: { shop, hasToken } }, 'Evaluating securely dynamic entry routing');
 
@@ -43,7 +48,7 @@ rootRouter.get('/', (req: Request, res: Response) => {
           <h1>🟢 Integration Verified</h1>
           <div class="success-box">
             <strong>Connected Store:</strong> ${shop}<br/>
-            An offline access token safely maps to this domain in transient memory.
+            An offline access token safely maps to this domain persistently securely in the active database.
           </div>
 
           <div class="harness-form">

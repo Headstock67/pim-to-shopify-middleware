@@ -15,8 +15,10 @@ const envSchema = z.object({
       'CONFIG_INVALID_CORS_WILDCARD: Global wildcard (*) CORS is strictly forbidden.'
     ),
   SHOPIFY_API_KEY: z.string().min(1, 'Shopify API Key is strictly required structurally.'),
-  SHOPIFY_API_SECRET: z.string().min(1, 'Shopify API Secret is explicitly required natively.'),
-  SHOPIFY_REDIRECT_URI: z.string().url().min(1, 'Strictly formatted Shopify Redirect URI is structurally mathematically safely required.')
+  SHOPIFY_API_SECRET: z.string().min(1, 'Shopify API Secret is directly required.'),
+  SHOPIFY_REDIRECT_URI: z.string().url(),
+  DATABASE_URL: z.string().url('DATABASE_URL must be a structurally valid Postgres URI natively.'),
+  ENCRYPTION_KEY: z.string().length(64, 'ENCRYPTION_KEY must explicitly map to perfectly exactly 64 hex characters (32 bytes).').regex(/^[0-9a-fA-F]{64}$/, 'Must manually be a mathematically valid hex string.')
 });
 
 const parsed = envSchema.safeParse(process.env);

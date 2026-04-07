@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { logger } from '../logging';
-import { tokenStore } from '../services/store';
+import { db } from '../services/db';
+import { decryptToken } from '../services/encryption';
 
 export const productsRouter = Router();
 
@@ -13,10 +14,20 @@ productsRouter.get('/harness', async (req: Request, res: Response) => {
     return;
   }
 
-  const token = tokenStore.get(shop);
-  if (!token) {
-    logger.warn({ shop }, 'Product retrieval blocked: No valid offline token in memory store.');
+  const result = await db.query('SELECT access_token FROM shopify_sessions WHERE shop = $1', [shop]);
+  
+  if ((result.rowCount ?? 0) === 0) {
+    logger.warn({ shop }, 'Product retrieval blocked: No valid offline token in persistent store.');
     res.status(401).send('Unauthorized: No valid context found for this shop. Please reboot OAuth handshake.');
+    return;
+  }
+
+  const encryptedPayload = result.rows[0].access_token;
+  const token = decryptToken(encryptedPayload);
+
+  if (!token) {
+    logger.error({ shop }, 'Product retrieval blocked: Token decryption physically failed. Re-Auth mandated.');
+    res.status(401).send('Unauthorized: Invalid cryptographic binding. Please reboot OAuth handshake.');
     return;
   }
 

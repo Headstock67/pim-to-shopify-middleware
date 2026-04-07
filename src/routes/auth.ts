@@ -1,7 +1,9 @@
 import { Router, Request, Response } from 'express';
 import { randomBytes } from 'crypto';
 import { logger } from '../logging';
-import { stateStore, tokenStore } from '../services/store';
+import { stateStore } from '../services/store';
+import { db } from '../services/db';
+import { encryptToken } from '../services/encryption';
 import { config } from '../config';
 import { verifyShopifyHmac } from '../services/shopifyHmac';
 
@@ -91,8 +93,19 @@ authRouter.get('/callback', async (req: Request, res: Response) => {
       throw new Error('Access Token explicitly missing.');
     }
 
-    tokenStore.set(shop, payload.access_token);
-    logger.info({ shop }, 'Offline Access Token securely correctly natively carefully perfectly securely structurally appropriately tightly flawlessly efficiently cleanly structurally mapped!');
+    const encryptedToken = encryptToken(payload.access_token);
+
+    // Atomic Postgres UPSERT cleanly mapped
+    await db.query(`
+      INSERT INTO shopify_sessions (shop, access_token, scope, is_offline) 
+      VALUES ($1, $2, $3, true)
+      ON CONFLICT (shop) DO UPDATE SET 
+        access_token = EXCLUDED.access_token, 
+        scope = EXCLUDED.scope, 
+        updated_at = CURRENT_TIMESTAMP;
+    `, [shop, encryptedToken, payload.scope]);
+
+    logger.info({ shop }, 'Offline Access Token natively encrypted and persisted securely.');
 
     res.redirect(`https://${shop}/admin/apps/${config.SHOPIFY_API_KEY}`);
   } catch (error: any) {
