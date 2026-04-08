@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { config } from '../config';
+import { requireApiToken } from '../middleware/auth';
 
 export const healthRouter = Router();
 
@@ -24,7 +25,7 @@ healthRouter.get('/ready', (req, res) => {
 });
 
 // Rigorous full state overview endpoint internally gated
-healthRouter.get('/status', (req, res) => {
+healthRouter.get('/status', requireApiToken, (req, res) => {
   res.status(200).json({
     service: config.SERVICE_NAME,
     environment: config.NODE_ENV,

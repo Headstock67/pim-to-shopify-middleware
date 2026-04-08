@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { AppError } from '../errors/AppError';
 import { logger } from '../logging';
+import { recordSystemEvent } from '../services/systemEvents';
+import { asyncContext } from './asyncContext';
 
 interface BodyParserSyntaxError extends SyntaxError {
   status: number;
@@ -11,49 +13,52 @@ function isBodyParserSyntaxError(err: unknown): err is BodyParserSyntaxError {
   return err instanceof SyntaxError && 'status' in err && 'body' in err;
 }
 
-export function errorHandler(
+export async function errorHandler(
   err: Error | AppError,
   req: Request,
   res: Response,
   _next: NextFunction
 ) {
-  // Gracefully catch body-parser SyntaxErrors (e.g., malformed JSON parsing within the 100kb limit)
+  const store = asyncContext.getStore();
+  const requestId = store?.requestId || 'UNKNOWN_REQ';
+  let eventId = 'UNKNOWN_EVENT';
+
+  // 1. Compute safe values for logging and response
+  let severity: 'info' | 'warning' | 'error' | 'critical' = 'critical';
+  let eventType = 'UNHANDLED_EXCEPTION';
+  let statusCode = 500;
+  let responseMessage = 'Internal server error';
+
   if (isBodyParserSyntaxError(err) && err.status === 400) {
-    logger.warn({ err }, 'Malformed JSON payload rejected');
-    res.status(400).json({
-      error: {
-        code: 'BAD_REQUEST',
-        message: 'Malformed JSON payload',
-        details: {}
-      }
-    });
-    return;
+    severity = 'warning';
+    eventType = 'MALFORMED_JSON';
+    statusCode = 400;
+    responseMessage = 'Malformed JSON payload';
+  } else if (err instanceof AppError) {
+    severity = err.isOperational ? 'error' : 'critical';
+    eventType = err.code;
+    statusCode = err.statusCode;
+    responseMessage = err.message;
   }
 
-  // Handle known application errors
-  if (err instanceof AppError) {
-    if (!err.isOperational) {
-      logger.fatal({ err }, 'Non-operational AppError encountered');
-    } else {
-      logger.error({ err }, 'Operational AppError handled');
-    }
-    res.status(err.statusCode).json({
-      error: {
-        code: err.code,
-        message: err.message,
-        details: err.details
-      }
+  // 2. Dual-emit and persist the event securely, never blocking response
+  try {
+    eventId = await recordSystemEvent({
+      severity,
+      eventType,
+      domain: 'core',
+      message: err.message,
+      requestId,
+      details: err instanceof AppError ? err.details : {} 
     });
-    return;
+  } catch (logErr: any) {
+    logger.error({ error: logErr.message }, 'Failed to record system event during error handling.');
   }
 
-  // Unknown Exceptions (fallbacks) masked as 500s safely to the client
-  logger.fatal({ err }, 'Unexpected unhandled exception encountered');
-  res.status(500).json({
-    error: {
-      code: 'INTERNAL_SERVER_ERROR',
-      message: 'An unexpected error occurred',
-      details: {}
-    }
+  // 3. Return safe JSON responses to the client matching the required generic output format
+  res.status(statusCode).json({
+    error: responseMessage,
+    requestId,
+    eventId
   });
 }
