@@ -7,7 +7,8 @@
     "dev": "nodemon -r dotenv/config --exec ts-node src/server.ts",
     "build": "tsc",
     "start": "node build/server.js",
-    "test": "CORS_ALLOWED_ORIGINS=http://localhost:3000 jest"
+    "test": "CORS_ALLOWED_ORIGINS=http://localhost:3000 jest",
+    "test:e2e": "ts-node -r dotenv/config src/scripts/runE2ETest.ts"
   },
   "dependencies": {
     "cors": "^2.8.5",

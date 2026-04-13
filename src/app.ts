@@ -9,6 +9,7 @@ import { healthRouter } from './routes/health';
 import { rootRouter } from './routes/root';
 import { authRouter } from './routes/auth';
 import { productsRouter } from './routes/products';
+import { pimImportRouter } from './routes/pimImport';
 import { config } from './config';
 import { AppError } from './errors/AppError';
 
@@ -78,6 +79,7 @@ app.use('/health', healthRouter);
 // 7. Embedded Shopify Test Harness Routes explicitly bound over public tunneling
 app.use('/api/auth', authRouter);
 app.use('/api/products', productsRouter);
+app.use('/api/pim-import', pimImportRouter);
 app.use('/', rootRouter);
 
 // 8. Global Error trapping boundary 

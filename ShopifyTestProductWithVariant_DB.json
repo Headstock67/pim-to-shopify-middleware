@@ -1,0 +1,195 @@
+{
+  "product": {
+    "handle": "gamegenic-token-silo-xl-ultimate-organiser-for-tabletop-games",
+    "title": "Gamegenic Token Silo XL | Ultimate Organiser for Tabletop Games",
+    "status": "draft",
+    "body_html": "<h2>Organise Your Game Like a Pro with the Gamegenic Token Silo XL</h2>\n\n<p>The Gamegenic Token Silo XL is the ultimate solution for tabletop and board game enthusiasts looking to meticulously organise their gaming components. With its innovative design, this token box offers unparalleled flexibility and storage capacity to keep your gaming sessions smooth and clutter-free.</p>\n\n<h2>Key features:</h2>\n<ul>\n    <li><strong>Versatile Storage:</strong> Accommodates a wide range of tokens, tools, cards, dice, and more.</li>\n    <li><strong>15 Customisable Trays:</strong> Includes 15 trays in 5 distinct sizes, featuring 2 Mini-American trays, 2 Standard Card trays, and 1 extra-long tray for movement/range tools.</li>\n    <li><strong>Secure Closure:</strong> The cover clips securely to all four sides, ensuring your components stay safe and in place.</li>\n    <li><strong>Effortless Access:</strong> The cover clips to the bottom to free up space on your gaming table.</li>\n    <li><strong>Interchangeable Trays:</strong> Trays can be swapped with those from the original Gamegenic Token Silo and Token Silo Cards Add-on for enhanced customisation.</li>\n    <li><strong>Available Colours:</strong> Choose from vibrant options like Green/Lime, Yellow, and Red to match your gaming style.</li>\n</ul>\n\n<p>Elevate your gaming organisation with the Gamegenic Token Silo XL and enjoy a seamless gaming experience. Choose your preferred colour today and keep your game pieces impeccably organised!</p>",
+    "vendor": "Asmodee",
+    "product_category_id": "gid://shopify/TaxonomyCategory/tg-2-6",
+    "type": "",
+    "tags": [
+      "Board Games",
+      "Green",
+      "Red",
+      "Yellow"
+    ],
+    "published": false,
+    "seo_title": "Gamegenic Token Silo XL | Ultimate Organiser | £23.99",
+    "seo_description": "Transform your tabletop gaming experience with the Gamegenic Token Silo XL. Enjoy versatile, customisable storage and effortless access.",
+    "options": [
+      {
+        "name": "Title",
+        "position": 1
+      }
+    ],
+    "google_shopping": {
+      "google_product_category": "5888",
+      "gender": "unisex",
+      "age_group": "adult",
+      "condition": "new",
+      "custom_labels": {
+        "0": "Ultimate Organiser",
+        "1": "Board Game Accessory",
+        "2": "Token Storage",
+        "3": "Customisable",
+        "4": "Flexible Design"
+      }
+    },
+    "dynamic_attributes": [
+      {
+        "name": "Color",
+        "handle": "color-pattern",
+        "values": [
+          "green",
+          "yellow",
+          "red"
+        ]
+      }
+    ],
+    "variants": [
+      {
+        "sku": "GGS22045ML",
+        "price": "23.99",
+        "barcode": "4251715416310",
+        "option1_value": "Gamegenic Token Silo XL Green/Lime",
+        "compare_at_price": "23.99",
+        "cost_per_item": "9.95",
+        "inventory_tracker": "shopify",
+        "inventory_qty": 0,
+        "inventory_policy": "deny",
+        "fulfillment_service": "manual",
+        "requires_shipping": true,
+        "weight": "0.6",
+        "weight_unit": "kg",
+        "taxable": true,
+        "variant_image_url": "https://ik.imagekit.io/5z2p5rto5/GGS22045ML_1_gKxy_wPDS.jpg"
+      },
+      {
+        "sku": "GGS22048ML",
+        "price": "23.99",
+        "barcode": "4251715416341",
+        "option1_value": "Gamegenic Token Silo XL Yellow",
+        "compare_at_price": "23.99",
+        "cost_per_item": "9.95",
+        "inventory_tracker": "shopify",
+        "inventory_qty": 0,
+        "inventory_policy": "deny",
+        "fulfillment_service": "manual",
+        "requires_shipping": true,
+        "weight": "0.6",
+        "weight_unit": "kg",
+        "taxable": true,
+        "variant_image_url": "https://ik.imagekit.io/5z2p5rto5/GGS22048ML_1_OOv1XAgXX.jpg"
+      },
+      {
+        "sku": "GGS22044ML",
+        "price": "23.99",
+        "barcode": "4251715416303",
+        "option1_value": "Gamegenic Token Silo XL Red",
+        "compare_at_price": "23.99",
+        "cost_per_item": "9.95",
+        "inventory_tracker": "shopify",
+        "inventory_qty": 0,
+        "inventory_policy": "deny",
+        "fulfillment_service": "manual",
+        "requires_shipping": true,
+        "weight": "0.6",
+        "weight_unit": "kg",
+        "taxable": true,
+        "variant_image_url": "https://ik.imagekit.io/5z2p5rto5/GGS22044ML_1_LwBbARqYF.jpg"
+      }
+    ],
+    "images": [
+      {
+        "url": "https://ik.imagekit.io/5z2p5rto5/GGS22045ML_1_ljJGRt2Z0.jpg",
+        "position": 1,
+        "alt_text": ""
+      },
+      {
+        "url": "https://ik.imagekit.io/5z2p5rto5/GGS22048ML_1_vhWpgsIKP.jpg",
+        "position": 2,
+        "alt_text": ""
+      },
+      {
+        "url": "https://ik.imagekit.io/5z2p5rto5/GGS22044ML_1_dHLGJyAsa.jpg",
+        "position": 3,
+        "alt_text": ""
+      },
+      {
+        "url": "https://ik.imagekit.io/5z2p5rto5/GGS22045ML_2_dxiHNqFtZ.jpg",
+        "position": 4,
+        "alt_text": ""
+      },
+      {
+        "url": "https://ik.imagekit.io/5z2p5rto5/GGS22045ML_3_gBcH3mGMt.jpg",
+        "position": 5,
+        "alt_text": ""
+      },
+      {
+        "url": "https://ik.imagekit.io/5z2p5rto5/GGS22045ML_4_9K3wWnJr1.jpg",
+        "position": 6,
+        "alt_text": ""
+      },
+      {
+        "url": "https://ik.imagekit.io/5z2p5rto5/GGS22045ML_5_FtSYuUKC-.jpg",
+        "position": 7,
+        "alt_text": ""
+      },
+      {
+        "url": "https://ik.imagekit.io/5z2p5rto5/GGS22045ML_6_XKPY_TUcb.jpg",
+        "position": 8,
+        "alt_text": ""
+      },
+      {
+        "url": "https://ik.imagekit.io/5z2p5rto5/GGS22048ML_2_SuGiqJRiQ.jpg",
+        "position": 9,
+        "alt_text": ""
+      },
+      {
+        "url": "https://ik.imagekit.io/5z2p5rto5/GGS22048ML_3_X4KN0QSP8.jpg",
+        "position": 10,
+        "alt_text": ""
+      },
+      {
+        "url": "https://ik.imagekit.io/5z2p5rto5/GGS22048ML_4_yAxADzoUC.jpg",
+        "position": 11,
+        "alt_text": ""
+      },
+      {
+        "url": "https://ik.imagekit.io/5z2p5rto5/GGS22048ML_5_5jee0XYZD.jpg",
+        "position": 12,
+        "alt_text": ""
+      },
+      {
+        "url": "https://ik.imagekit.io/5z2p5rto5/GGS22048ML_6_Ub2sxNm_W.jpg",
+        "position": 13,
+        "alt_text": ""
+      },
+      {
+        "url": "https://ik.imagekit.io/5z2p5rto5/GGS22044ML_2_amgK9qtSk.jpg",
+        "position": 14,
+        "alt_text": ""
+      },
+      {
+        "url": "https://ik.imagekit.io/5z2p5rto5/GGS22044ML_3_xpgqGDx_3.jpg",
+        "position": 15,
+        "alt_text": ""
+      },
+      {
+        "url": "https://ik.imagekit.io/5z2p5rto5/GGS22044ML_4_hNkp4n5s6.jpg",
+        "position": 16,
+        "alt_text": ""
+      },
+      {
+        "url": "https://ik.imagekit.io/5z2p5rto5/GGS22044ML_5__yGgATCre.jpg",
+        "position": 17,
+        "alt_text": ""
+      },
+      {
+        "url": "https://ik.imagekit.io/5z2p5rto5/GGS22044ML_6_yO2o1FS2m.jpg",
+        "position": 18,
+        "alt_text": ""
+      }
+    ]
+  }
+}
