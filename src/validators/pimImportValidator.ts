@@ -19,7 +19,13 @@ export const GoogleShoppingSchema = z.object({
 export const DynamicAttributeSchema = z.object({
   name: z.string(),
   handle: z.string(),
-  values: z.array(z.string())
+  values: z.array(z.union([
+    z.string(),
+    z.object({
+      handle: z.string(),
+      taxonomy_value_gid: z.string()
+    })
+  ]))
 });
 
 export const PIMVariantSchema = z.object({

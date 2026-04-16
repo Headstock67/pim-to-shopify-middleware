@@ -60,6 +60,11 @@ export async function executeShopifyGraphQL(shop: string, token: string, query: 
   }
 }
 
+interface TaxonomyCache {
+  [key: string]: string;
+}
+const TAXONOMY_MEMORY_CACHE: TaxonomyCache = {};
+
 export async function syncPimProductToShopify(shop: string, payload: Payload, requestId: string) {
   const token = await getShopifyToken(shop);
   if (!token) {
@@ -101,33 +106,95 @@ export async function syncPimProductToShopify(shop: string, payload: Payload, re
 
   const metafieldsInputs = [];
 
+  const variantGoogleMetafields: any[] = [];
   if (product.google_shopping) {
     const gs = product.google_shopping;
-    if (gs.google_product_category) metafieldsInputs.push({ namespace: "google", key: "google_product_category", type: "single_line_text_field", value: gs.google_product_category });
-    if (gs.gender) metafieldsInputs.push({ namespace: "google", key: "gender", type: "single_line_text_field", value: gs.gender });
-    if (gs.age_group) metafieldsInputs.push({ namespace: "google", key: "age_group", type: "single_line_text_field", value: gs.age_group });
-    if (gs.mpn) metafieldsInputs.push({ namespace: "google", key: "mpn", type: "single_line_text_field", value: gs.mpn });
-    if (gs.condition) metafieldsInputs.push({ namespace: "google", key: "condition", type: "single_line_text_field", value: gs.condition });
+    if (gs.google_product_category) variantGoogleMetafields.push({ namespace: "mm-google-shopping", key: "google_product_category", type: "single_line_text_field", value: gs.google_product_category });
+    if (gs.gender) variantGoogleMetafields.push({ namespace: "mm-google-shopping", key: "gender", type: "single_line_text_field", value: gs.gender });
+    if (gs.age_group) variantGoogleMetafields.push({ namespace: "mm-google-shopping", key: "age_group", type: "single_line_text_field", value: gs.age_group });
+    if (gs.mpn) variantGoogleMetafields.push({ namespace: "mm-google-shopping", key: "mpn", type: "single_line_text_field", value: gs.mpn });
+    if (gs.condition) variantGoogleMetafields.push({ namespace: "mm-google-shopping", key: "condition", type: "single_line_text_field", value: gs.condition });
     
-    if (gs.custom_product) metafieldsInputs.push({ namespace: "google", key: "custom_product", type: "single_line_text_field", value: gs.custom_product });
-    if (gs.custom_product_metafield) metafieldsInputs.push({ namespace: "google", key: "custom_product_metafield", type: "single_line_text_field", value: gs.custom_product_metafield });
+    if (gs.custom_product) variantGoogleMetafields.push({ namespace: "mm-google-shopping", key: "custom_product", type: "single_line_text_field", value: gs.custom_product });
+    if (gs.custom_product_metafield) variantGoogleMetafields.push({ namespace: "mm-google-shopping", key: "custom_product_metafield", type: "single_line_text_field", value: gs.custom_product_metafield });
 
     if (gs.custom_labels) {
       Object.entries(gs.custom_labels).forEach(([index, labelValue]) => {
         if (labelValue) {
-          metafieldsInputs.push({ namespace: "google", key: `custom_label_${index}`, type: "single_line_text_field", value: labelValue });
+          variantGoogleMetafields.push({ namespace: "mm-google-shopping", key: `custom_label_${index}`, type: "single_line_text_field", value: labelValue });
         }
       });
     }
   }
 
   for (const attr of product.dynamic_attributes) {
-    metafieldsInputs.push({
-      namespace: "pg__pim",
-      key: attr.handle,
-      type: "single_line_text_field",
-      value: attr.values.join(', ')
-    });
+    const isTaxonomyBlock = attr.values.length > 0 && typeof attr.values[0] === 'object' && attr.values[0].taxonomy_value_gid;
+
+    if (isTaxonomyBlock) {
+      const metaobjectGids: string[] = [];
+      const fallbackStrings: string[] = [];
+      const typeHandle = `shopify--${attr.handle}`;
+
+      for (const val of attr.values) {
+        if (typeof val === 'string') {
+          fallbackStrings.push(val);
+          continue;
+        }
+
+        const literalHandle = val.handle;
+        const cacheKey = `${typeHandle}:${literalHandle}`;
+
+        if (TAXONOMY_MEMORY_CACHE[cacheKey]) {
+          metaobjectGids.push(TAXONOMY_MEMORY_CACHE[cacheKey]);
+          continue;
+        }
+
+        try {
+          const q = `query { metaobjects(first: 250, type: "${typeHandle}") { edges { node { id handle } } } }`;
+          const res = await executeShopifyGraphQL(shop, token, q, {}, requestId);
+          
+          if (res.metaobjects?.edges) {
+            for (const edge of res.metaobjects.edges) {
+              TAXONOMY_MEMORY_CACHE[`${typeHandle}:${edge.node.handle}`] = edge.node.id;
+            }
+          }
+
+          if (TAXONOMY_MEMORY_CACHE[cacheKey]) {
+            metaobjectGids.push(TAXONOMY_MEMORY_CACHE[cacheKey]);
+          } else {
+            fallbackStrings.push(literalHandle);
+          }
+        } catch (e: any) {
+          fallbackStrings.push(literalHandle);
+        }
+      }
+
+      if (metaobjectGids.length > 0) {
+        metafieldsInputs.push({
+          namespace: "shopify",
+          key: attr.handle,
+          type: "list.metaobject_reference",
+          value: JSON.stringify(metaobjectGids)
+        });
+      }
+
+      if (fallbackStrings.length > 0) {
+        metafieldsInputs.push({
+          namespace: "pg__pim",
+          key: attr.handle,
+          type: "single_line_text_field",
+          value: fallbackStrings.join(', ')
+        });
+      }
+
+    } else {
+      metafieldsInputs.push({
+        namespace: "pg__pim",
+        key: attr.handle,
+        type: "single_line_text_field",
+        value: (attr.values as any[]).map(v => typeof v === 'string' ? v : v.handle).join(', ')
+      });
+    }
   }
 
   if (product.tags && product.tags.length > 0) {
@@ -184,6 +251,7 @@ export async function syncPimProductToShopify(shop: string, payload: Payload, re
         } : {})
       } : undefined,
       file: v.variant_image_url ? { originalSource: v.variant_image_url, contentType: "IMAGE" } : undefined,
+      metafields: variantGoogleMetafields.length > 0 ? variantGoogleMetafields : undefined,
       optionValues: [
         v.option1_value ? { optionName: product.options[0]?.name || "Option1", name: v.option1_value } : null,
         v.option2_value ? { optionName: product.options[1]?.name || "Option2", name: v.option2_value } : null,

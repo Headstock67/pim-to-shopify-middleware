@@ -40,9 +40,18 @@
         "name": "Color",
         "handle": "color-pattern",
         "values": [
-          "green",
-          "yellow",
-          "red"
+          {
+            "handle": "green",
+            "taxonomy_value_gid": "gid://shopify/TaxonomyValue/9"
+          },
+          {
+            "handle": "yellow",
+            "taxonomy_value_gid": "gid://shopify/TaxonomyValue/14"
+          },
+          {
+            "handle": "red",
+            "taxonomy_value_gid": "gid://shopify/TaxonomyValue/13"
+          }
         ]
       }
     ],
@@ -50,6 +59,7 @@
       {
         "sku": "GGS22045ML",
         "price": "23.99",
+        "mpn": "GGS22045ML",
         "barcode": "4251715416310",
         "option1_value": "Gamegenic Token Silo XL Green/Lime",
         "compare_at_price": "23.99",
@@ -67,6 +77,7 @@
       {
         "sku": "GGS22048ML",
         "price": "23.99",
+        "mpn": "GGS22048ML",
         "barcode": "4251715416341",
         "option1_value": "Gamegenic Token Silo XL Yellow",
         "compare_at_price": "23.99",
@@ -84,6 +95,7 @@
       {
         "sku": "GGS22044ML",
         "price": "23.99",
+        "mpn": "GGS22044ML",
         "barcode": "4251715416303",
         "option1_value": "Gamegenic Token Silo XL Red",
         "compare_at_price": "23.99",

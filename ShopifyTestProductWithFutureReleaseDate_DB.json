@@ -2,7 +2,7 @@
   "product": {
     "handle": "first-giants-tactical-board-game-mastery",
     "title": "First Giants | Tactical Board Game Mastery",
-    "status": "draft",
+    "status": "active",
     "body_html": "<h2>Unleash Your Strategy with First Giants</h2>\n\n<p>Immerse yourself in the world of tactical brilliance with \"First Giants,\" a board game designed to challenge and engage players of all levels. A perfect addition to any game night, it promises a dynamic experience that is as strategic as it is entertaining.</p>\n\n<h2>Key features:</h2>\n<ul>\n  <li><strong>Category:</strong> Board Games</li>\n  <li><strong>Compact Design:</strong> Dimensions of 6.2 cm in width, 24.1 cm in height, and 16.6 cm in depth make it easy to store and transport.</li>\n  <li><strong>Lightweight:</strong> Weighing just 1 kg, it's easy to bring this game to any gathering.</li>\n  <li><strong>Engaging Gameplay:</strong> Offers a competitive edge that both novice and seasoned players will appreciate.</li>\n</ul>\n\n<p>Elevate your gaming nights with \"First Giants\" and experience the thrill of strategic mastery. Add this captivating board game to your collection today!</p>",
     "vendor": "Asmodee",
     "product_category_id": "gid://shopify/TaxonomyCategory/tg-2-5",
@@ -10,7 +10,8 @@
     "tags": [
       "Board Games"
     ],
-    "published": false,
+    "published": true,
+    "release_date": "2026-05-14T23:00:00.000Z",
     "seo_title": "First Giants Board Game | Tactical Mastery | £28.99",
     "seo_description": "Unleash your strategy with First Giants, a board game offering dynamic, engaging gameplay for all levels. Ideal for game nights.",
     "options": [
@@ -37,22 +38,34 @@
         "name": "Board game mechanics",
         "handle": "board-game-mechanics",
         "values": [
-          "strategy"
+          {
+            "handle": "strategy",
+            "taxonomy_value_gid": "gid://shopify/TaxonomyValue/21574"
+          }
         ]
       },
       {
         "name": "Gameplay skills",
         "handle": "gameplay-skills",
         "values": [
-          "strategic-thinking",
-          "tactical-decision-making"
+          {
+            "handle": "strategic-thinking",
+            "taxonomy_value_gid": "gid://shopify/TaxonomyValue/16845"
+          },
+          {
+            "handle": "tactical-decision-making",
+            "taxonomy_value_gid": "gid://shopify/TaxonomyValue/16846"
+          }
         ]
       },
       {
         "name": "Recommended age group",
         "handle": "recommended-age-group",
         "values": [
-          "10-years-or-older"
+          {
+            "handle": "10-years-or-older",
+            "taxonomy_value_gid": "gid://shopify/TaxonomyValue/16815"
+          }
         ]
       }
     ],
@@ -60,6 +73,7 @@
       {
         "sku": "ASMSCNJC01EN",
         "price": "28.99",
+        "mpn": "ASMSCNJC01EN",
         "barcode": "3558387001426",
         "option1_value": "Default Title",
         "compare_at_price": "28.99",
