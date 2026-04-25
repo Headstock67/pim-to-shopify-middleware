@@ -1,10 +1,10 @@
-import { db } from '../db';
-import { decryptToken } from '../encryption';
+import { db } from '../services/db';
+import { decryptToken } from '../services/encryption';
 
 async function getShopifyToken(): Promise<{ shop: string, token: string } | null> {
   const result = await db.query('SELECT shop, access_token FROM shopify_sessions WHERE is_offline = true LIMIT 1');
   if (result.rowCount === 0) return null;
-  return { shop: result.rows[0].shop, token: decryptToken(result.rows[0].access_token) };
+  return { shop: result.rows[0].shop, token: decryptToken(result.rows[0].access_token) || '' };
 }
 
 async function run() {
