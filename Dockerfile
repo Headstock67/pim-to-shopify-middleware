@@ -23,4 +23,4 @@ USER node
 EXPOSE 3000
 
 # Execute server payload
-CMD ["node", "build/server.js"]
+CMD ["node", "build/src/server.js"]

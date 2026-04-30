@@ -2,11 +2,11 @@
   "name": "pendulum-ops-middleware",
   "version": "1.0.0",
   "description": "API middleware scaffold for Pendulum Ops",
-  "main": "build/server.js",
+  "main": "build/src/server.js",
   "scripts": {
     "dev": "nodemon -r dotenv/config --exec ts-node src/server.ts",
     "build": "tsc",
-    "start": "node build/server.js",
+    "start": "node build/src/server.js",
     "test": "CORS_ALLOWED_ORIGINS=http://localhost:3000 jest",
     "test:e2e": "ts-node -r dotenv/config src/scripts/runE2ETest.ts"
   },
